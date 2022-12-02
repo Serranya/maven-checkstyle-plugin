@@ -28,11 +28,9 @@ under the License.
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <outputDirectory>${basedir}/target/test-harness/checkstyle/custom</outputDirectory>
-          <localRepository>${localRepository}</localRepository>
           <enableRulesSummary>true</enableRulesSummary>
           <enableSeveritySummary>true</enableSeveritySummary>
           <enableFilesSummary>true</enableFilesSummary>
-          <enableRSS>true</enableRSS>
           <includes>**/*.java</includes>
           <configLocation>google_checks.xml</configLocation>
           <headerLocation>LICENSE.txt</headerLocation>

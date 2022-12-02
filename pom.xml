@@ -30,7 +30,7 @@ under the License.
   </parent>
 
   <artifactId>maven-checkstyle-plugin</artifactId>
-  <version>3.2.2-SNAPSHOT</version>
+  <version>4.0.0-M1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Apache Maven Checkstyle Plugin</name>
@@ -67,10 +67,10 @@ under the License.
     <aetherVersion>1.0.0.v20140518</aetherVersion>
     <mavenVersion>3.2.5</mavenVersion>
     <checkstyleVersion>9.3</checkstyleVersion>
-    <doxiaVersion>1.11.1</doxiaVersion>
-    <doxiaSitetoolsVersion>1.11.1</doxiaSitetoolsVersion>
-    <sitePluginVersion>3.12.1</sitePluginVersion>
-    <jxrPluginVersion>3.3.0</jxrPluginVersion>
+    <doxiaVersion>2.0.0-M6</doxiaVersion>
+    <doxiaSitetoolsVersion>2.0.0-M6</doxiaSitetoolsVersion>
+    <sitePluginVersion>4.0.0-M6</sitePluginVersion>
+    <jxrPluginVersion>4.0.0-M1-SNAPSHOT</jxrPluginVersion>
     <project.build.outputTimestamp>2023-01-06T22:31:05Z</project.build.outputTimestamp>
   </properties>
 
@@ -122,12 +122,12 @@ under the License.
     <dependency>
       <groupId>org.apache.maven.reporting</groupId>
       <artifactId>maven-reporting-api</artifactId>
-      <version>3.1.1</version>
+      <version>4.0.0-M5</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.reporting</groupId>
       <artifactId>maven-reporting-impl</artifactId>
-      <version>3.2.0</version>
+      <version>4.0.0-M5</version>
     </dependency>
 
     <!-- doxia -->
@@ -166,40 +166,13 @@ under the License.
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>3.4.2</version>
+      <version>3.5.1</version>
     </dependency>
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-velocity</artifactId>
-      <version>1.2</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.codehaus.plexus</groupId>
-          <artifactId>plexus-container-default</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.codehaus.plexus</groupId>
-          <artifactId>plexus-component-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>velocity</groupId>
-          <artifactId>velocity</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
     <!-- checkstyle -->
     <dependency>
       <groupId>com.puppycrawl.tools</groupId>
       <artifactId>checkstyle</artifactId>
       <version>${checkstyleVersion}</version>
-    </dependency>
-
-    <!-- misc -->
-    <dependency>
-      <groupId>org.apache.velocity</groupId>
-      <artifactId>velocity</artifactId>
-      <version>1.7</version>
     </dependency>
 
     <!-- test -->
@@ -260,7 +233,7 @@ under the License.
     <dependency>
       <groupId>org.apache.maven.wagon</groupId>
       <artifactId>wagon-http-lightweight</artifactId>
-      <version>3.5.1</version>
+      <version>3.5.3</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -297,7 +270,7 @@ under the License.
         <plugin>
           <!-- check with parent pom upgrade -->
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>3.2.1</version>
           <dependencies>
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
@@ -307,7 +280,7 @@ under the License.
             <dependency>
               <groupId>org.apache.maven.shared</groupId>
               <artifactId>maven-shared-resources</artifactId>
-              <version>4</version>
+              <version>5</version>
             </dependency>
           </dependencies>
         </plugin>

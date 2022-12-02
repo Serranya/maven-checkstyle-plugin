@@ -20,13 +20,9 @@ package org.apache.maven.plugins.checkstyle;
  */
 
 import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.plugins.checkstyle.exec.CheckstyleExecutorRequest;
-import org.apache.maven.project.MavenProject;
 import org.apache.maven.reporting.MavenReportException;
-
-import java.util.List;
 
 /**
  * A reporting task that performs Checkstyle analysis and generates an aggregate
@@ -40,20 +36,6 @@ import java.util.List;
 public class CheckstyleAggregateReport
     extends AbstractCheckstyleReport
 {
-    /**
-     * The projects in the reactor for aggregation report.
-     *
-     * @since 2.8
-     */
-    @Parameter( property = "reactorProjects", readonly = true )
-    private List<MavenProject> reactorProjects;
-
-    /** {@inheritDoc} */
-    protected MavenProject getProject()
-    {
-        return project;
-    }
-
     /**
      * {@inheritDoc}
      */

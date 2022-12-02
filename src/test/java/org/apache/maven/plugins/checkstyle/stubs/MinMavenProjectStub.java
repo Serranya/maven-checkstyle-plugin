@@ -49,28 +49,22 @@ public class MinMavenProjectStub
         throws DependencyResolutionRequiredException
     {
         List<String> list = new ArrayList<>( getCompileClasspathElements() );
-        list.add( PlexusTestCase.getBasedir() + "/target/test-classes" );
+        list.add( getBasedir() + "/target/test-classes" );
         return list;
     }
 
     /** {@inheritDoc} */
     public List<String> getCompileSourceRoots()
     {
-        return Collections.singletonList( PlexusTestCase.getBasedir() + "/target/classes" );
+        return Collections.singletonList( getBasedir() + "/target/classes" );
     }
 
     /** {@inheritDoc} */
     public List<String> getTestCompileSourceRoots()
     {
         List<String> list = new ArrayList<>( getCompileSourceRoots() );
-        list.add( PlexusTestCase.getBasedir() + "/target/test-classes" );
+        list.add( getBasedir() + "/target/test-classes" );
         return list;
-    }
-
-    /** {@inheritDoc} */
-    public File getBasedir()
-    {
-        return new File( PlexusTestCase.getBasedir() );
     }
 
     /** {@inheritDoc} */
@@ -104,16 +98,13 @@ public class MinMavenProjectStub
     {
         Build build = new Build();
 
-        build.setDirectory( PlexusTestCase.getBasedir() + "/target/test-harness/checkstyle/min" );
+        build.setDirectory( getBasedir() + "/target/test-harness/checkstyle/min" );
 
         return build;
     }
 
-    /** {@inheritDoc} */
-    public File getFile()
-    {
-        File file = new File( getBasedir(), "pom.xml" );
-
-        return file;
+    @Override
+    protected String getPOM() {
+        return "min-plugin-config.xml";
     }
 }

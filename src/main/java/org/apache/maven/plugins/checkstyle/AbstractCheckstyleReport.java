@@ -26,7 +26,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -46,8 +45,7 @@ import org.apache.maven.plugins.checkstyle.exec.CheckstyleExecutor;
 import org.apache.maven.plugins.checkstyle.exec.CheckstyleExecutorException;
 import org.apache.maven.plugins.checkstyle.exec.CheckstyleExecutorRequest;
 import org.apache.maven.plugins.checkstyle.exec.CheckstyleResults;
-import org.apache.maven.plugins.checkstyle.rss.CheckstyleRssGenerator;
-import org.apache.maven.plugins.checkstyle.rss.CheckstyleRssGeneratorRequest;
+import org.apache.maven.project.MavenProject;
 import org.apache.maven.reporting.AbstractMavenReport;
 import org.apache.maven.reporting.MavenReportException;
 import org.codehaus.plexus.configuration.PlexusConfiguration;
@@ -71,8 +69,6 @@ import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 public abstract class AbstractCheckstyleReport
     extends AbstractMavenReport
 {
-    public static final String PLUGIN_RESOURCES = "org/apache/maven/plugins/checkstyle";
-
     protected static final String JAVA_FILES = "**\\/*.java";
 
     private static final String DEFAULT_CONFIG_LOCATION = "sun_checks.xml";
@@ -347,15 +343,6 @@ public abstract class AbstractCheckstyleReport
     private boolean enableFilesSummary;
 
     /**
-     * Specifies if the RSS should be enabled or not.
-     *
-     * @deprecated This feature will be removed in a future version.
-     */
-    @Parameter( property = "checkstyle.enable.rss", defaultValue = "false" )
-    @Deprecated
-    private boolean enableRSS;
-
-    /**
      * The Plugin Descriptor
      */
     @Parameter( defaultValue = "${plugin}", readonly = true, required = true )
@@ -449,15 +436,6 @@ public abstract class AbstractCheckstyleReport
     protected ResourceManager locator;
 
     /**
-     * CheckstyleRssGenerator.
-     *
-     * @since 2.4
-     */
-    @Component( role = CheckstyleRssGenerator.class, hint = "default" )
-    @Deprecated
-    protected CheckstyleRssGenerator checkstyleRssGenerator;
-
-    /**
      * @since 2.5
      */
     @Component( role = CheckstyleExecutor.class, hint = "default" )
@@ -475,6 +453,16 @@ public abstract class AbstractCheckstyleReport
     public String getDescription( Locale locale )
     {
         return getBundle( locale ).getString( "report.checkstyle.description" );
+    }
+
+    protected MavenProject getProject()
+    {
+        return project;
+    }
+
+    protected List<MavenProject> getReactorProjects()
+    {
+        return reactorProjects;
     }
 
     /** {@inheritDoc} */
@@ -528,15 +516,7 @@ public abstract class AbstractCheckstyleReport
             CheckstyleResults results = checkstyleExecutor.executeCheckstyle( request );
 
             ResourceBundle bundle = getBundle( locale );
-            generateReportStatics();
             generateMainReport( results, bundle );
-            if ( enableRSS )
-            {
-                CheckstyleRssGeneratorRequest checkstyleRssGeneratorRequest =
-                    new CheckstyleRssGeneratorRequest( this.project, this.getCopyright(), outputDirectory, getLog() );
-                checkstyleRssGenerator.generateRSS( results, checkstyleRssGeneratorRequest );
-            }
-
         }
         catch ( CheckstyleException e )
         {
@@ -689,42 +669,6 @@ public abstract class AbstractCheckstyleReport
         return consoleListener;
     }
 
-    private void generateReportStatics()
-        throws MavenReportException
-    {
-        ReportResource rresource = new ReportResource( PLUGIN_RESOURCES, outputDirectory );
-        try
-        {
-            rresource.copy( "images/rss.png" );
-        }
-        catch ( IOException e )
-        {
-            throw new MavenReportException( "Unable to copy static resources.", e );
-        }
-    }
-
-
-    private String getCopyright()
-    {
-        String copyright;
-        int currentYear = Calendar.getInstance().get( Calendar.YEAR );
-        if ( StringUtils.isNotEmpty( project.getInceptionYear() )
-            && !String.valueOf( currentYear ).equals( project.getInceptionYear() ) )
-        {
-            copyright = project.getInceptionYear() + " - " + currentYear;
-        }
-        else
-        {
-            copyright = String.valueOf( currentYear );
-        }
-
-        if ( ( project.getOrganization() != null ) && StringUtils.isNotEmpty( project.getOrganization().getName() ) )
-        {
-            copyright = copyright + " " + project.getOrganization().getName();
-        }
-        return copyright;
-    }
-
     private void generateMainReport( CheckstyleResults results, ResourceBundle bundle )
     {
         CheckstyleReportGenerator generator =
@@ -734,7 +678,6 @@ public abstract class AbstractCheckstyleReport
         generator.setEnableRulesSummary( enableRulesSummary );
         generator.setEnableSeveritySummary( enableSeveritySummary );
         generator.setEnableFilesSummary( enableFilesSummary );
-        generator.setEnableRSS( enableRSS );
         generator.setCheckstyleConfig( results.getConfiguration() );
         if ( linkXRef )
         {

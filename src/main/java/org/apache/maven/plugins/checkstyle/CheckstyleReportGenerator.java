@@ -65,9 +65,6 @@ public class CheckstyleReportGenerator
 
     private boolean enableFilesSummary;
 
-    @Deprecated
-    private boolean enableRSS;
-
     private final SiteTool siteTool;
 
     private String xrefLocation;
@@ -98,7 +95,6 @@ public class CheckstyleReportGenerator
         this.enableRulesSummary = true;
         this.enableSeveritySummary = true;
         this.enableFilesSummary = true;
-        this.enableRSS = false;
         this.iconTool = new IconTool( sink, bundle );
     }
 
@@ -190,19 +186,6 @@ public class CheckstyleReportGenerator
         sink.text( String.format( bundle.getString( "report.checkstyle.ruleset" ), ruleset ) );
         sink.text( "." );
 
-        if ( enableRSS )
-        {
-            sink.nonBreakingSpace();
-            sink.link( "checkstyle.rss" );
-            sink.figure();
-            sink.figureCaption();
-            sink.text( "rss feed" );
-            sink.figureCaption_();
-            sink.figureGraphics( "images/rss.png" );
-            sink.figure_();
-            sink.link_();
-        }
-
         sink.paragraph_();
         sink.section1_();
     }
@@ -263,7 +246,7 @@ public class CheckstyleReportGenerator
         sink.sectionTitle1_();
 
         sink.table();
-        sink.tableRows( null, false );
+        sink.tableRows();
 
         sink.tableRow();
         sink.tableHeaderCell();
@@ -480,7 +463,7 @@ public class CheckstyleReportGenerator
         sink.sectionTitle1_();
 
         sink.table();
-        sink.tableRows( null, false );
+        sink.tableRows();
 
         sink.tableRow();
         sink.tableHeaderCell();
@@ -529,7 +512,7 @@ public class CheckstyleReportGenerator
         sink.sectionTitle1_();
 
         sink.table();
-        sink.tableRows( null, false );
+        sink.tableRows();
 
         sink.tableRow();
         sink.tableHeaderCell();
@@ -618,7 +601,7 @@ public class CheckstyleReportGenerator
             sink.sectionTitle_( Sink.SECTION_LEVEL_2 );
 
             sink.table();
-            sink.tableRows( null, false );
+            sink.tableRows();
 
             sink.tableRow();
             sink.tableHeaderCell();
@@ -771,18 +754,6 @@ public class CheckstyleReportGenerator
     public void setEnableFilesSummary( boolean enableFilesSummary )
     {
         this.enableFilesSummary = enableFilesSummary;
-    }
-
-    @Deprecated
-    public boolean isEnableRSS()
-    {
-        return enableRSS;
-    }
-
-    @Deprecated
-    public void setEnableRSS( boolean enableRSS )
-    {
-        this.enableRSS = enableRSS;
     }
 
     public String getXrefLocation()

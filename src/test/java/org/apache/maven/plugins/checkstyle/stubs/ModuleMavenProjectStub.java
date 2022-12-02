@@ -23,7 +23,6 @@ import org.apache.maven.model.Build;
 import org.apache.maven.model.Organization;
 import org.apache.maven.model.ReportPlugin;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
-import org.codehaus.plexus.PlexusTestCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,28 +49,22 @@ public class ModuleMavenProjectStub
         throws DependencyResolutionRequiredException
     {
         List<String> list = new ArrayList<>( getCompileClasspathElements() );
-        list.add( PlexusTestCase.getBasedir() + "/target/test-classes" );
+        list.add( getBasedir() + "/target/test-classes" );
         return list;
     }
 
     /** {@inheritDoc} */
     public List<String> getCompileSourceRoots()
     {
-        return Collections.singletonList( PlexusTestCase.getBasedir() + "/target/classes" );
+        return Collections.singletonList( getBasedir() + "/target/classes" );
     }
 
     /** {@inheritDoc} */
     public List<String> getTestCompileSourceRoots()
     {
         List<String> list = new ArrayList<>( getCompileSourceRoots() );
-        list.add( PlexusTestCase.getBasedir() + "/target/test-classes" );
+        list.add( getBasedir() + "/target/test-classes" );
         return list;
-    }
-
-    /** {@inheritDoc} */
-    public File getBasedir()
-    {
-        return new File( PlexusTestCase.getBasedir() );
     }
 
     /** {@inheritDoc} */
@@ -105,18 +98,16 @@ public class ModuleMavenProjectStub
     {
         Build build = new Build();
 
-        build.setDirectory( PlexusTestCase.getBasedir() + "/target/test-harness/checkstyle/multi" );
-        build.setSourceDirectory( PlexusTestCase.getBasedir() + "/src/test/test-sources" );
-        build.setTestSourceDirectory( PlexusTestCase.getBasedir() + "/src/test/java" );
+        build.setDirectory( getBasedir() + "/target/test-harness/checkstyle/multi" );
+        build.setSourceDirectory( getBasedir() + "/src/test/test-sources" );
+        build.setTestSourceDirectory( getBasedir() + "/src/test/java" );
 
         return build;
     }
 
-    /** {@inheritDoc} */
-    public File getFile()
-    {
-        File file = new File( getBasedir(), "pom.xml" );
-
-        return file;
+    @Override
+    protected String getPOM() {
+        return "multi-plugin-config.xml";
     }
+
 }

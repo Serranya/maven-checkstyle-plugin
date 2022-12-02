@@ -24,10 +24,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
+import org.apache.maven.doxia.tools.SiteTool;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.codehaus.plexus.util.FileUtils;
 
@@ -148,7 +148,7 @@ public class CheckstyleReportTest
     {
         File pluginXmlFile = new File( getBasedir(), "src/test/resources/plugin-configs/" + pluginXml );
         ResourceBundle bundle =
-            ResourceBundle.getBundle( "checkstyle-report", Locale.getDefault(), this.getClassLoader() );
+            ResourceBundle.getBundle( "checkstyle-report", SiteTool.DEFAULT_LOCALE, this.getClassLoader() );
 
         CheckstyleReport mojo = createReportMojo( "checkstyle", pluginXmlFile );
 
@@ -171,13 +171,6 @@ public class CheckstyleReportTest
         }
 
         File outputDir = mojo.getReportOutputDirectory();
-
-        Boolean rss = (Boolean) getVariableValueFromObject( mojo, "enableRSS" );
-        if (rss)
-        {
-            File rssFile = new File( outputDir, "checkstyle.rss" );
-            assertTrue( "Test rss file exists", rssFile.exists() );
-        }
 
         File useFile = (File) getVariableValueFromObject( mojo, "useFile" );
         if ( useFile != null )
@@ -224,6 +217,6 @@ public class CheckstyleReportTest
 
     private static String getHtmlHeader( String s )
     {
-        return ">" + s + "</h2>";
+        return ">" + s + "</h1>";
     }
 }

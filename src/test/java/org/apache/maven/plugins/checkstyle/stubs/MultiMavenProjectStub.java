@@ -19,7 +19,6 @@ package org.apache.maven.plugins.checkstyle.stubs;
  * under the License.
  */
 
-import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
@@ -75,12 +74,6 @@ public class MultiMavenProjectStub
     }
 
     /** {@inheritDoc} */
-    public File getBasedir()
-    {
-        return new File( PlexusTestCase.getBasedir() );
-    }
-
-    /** {@inheritDoc} */
     public List<ReportPlugin> getReportPlugins()
     {
         ReportPlugin jxrPlugin = new ReportPlugin();
@@ -111,16 +104,14 @@ public class MultiMavenProjectStub
     {
         Build build = new Build();
 
-        build.setDirectory( PlexusTestCase.getBasedir() + "/target/test-harness/checkstyle/multi" );
+        build.setDirectory( getBasedir() + "/target/test-harness/checkstyle/multi" );
 
         return build;
     }
 
-    /** {@inheritDoc} */
-    public File getFile()
-    {
-        File file = new File( getBasedir(), "pom.xml" );
-
-        return file;
+    @Override
+    protected String getPOM() {
+        return "multi-plugin-config.xml";
     }
+
 }
